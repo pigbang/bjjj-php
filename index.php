@@ -1,4 +1,5 @@
 <?php
+include 'http.php';
 // 设置输出编码
 header('Content-Type:text/html;charset=utf-8');
 // 设置时区
@@ -112,18 +113,20 @@ function makeOutHtml($info) {
 }
 $huanghang = "</br>";
 $result_array = array(0,null);
-// 每隔5分钟尝试一次，尝试12次，脚本每次被唤醒运行1个小时
-for ($i = 0; $i < 12; $i++) {
+// 如果失败，才会每隔3秒尝试一次，尝试3次，脚本每15分钟被唤醒一次
+for ($i = 0; $i < 3; $i++) {
     $result_array = curl_post($head, http_build_query($form), $host.$page_entercarlist, $host.$page_index);
     if ($result_array[0] == 200) {
         break;
     }
 
     echo "Enter car list ".$i." code = ".$result_array[0].$huanghang;
-    sleep(5 * 60);
+    sleep(3);
 }
 // 异常情况
 if ($result_array[0] <> 200 || $result_array[1] == null) {
+    // 设置应答头
+    https($result_array[0]);
     // 结束运行，将日志发送到邮箱
     if ($result_array[1] != null)
         echo $result_array[1];
@@ -143,7 +146,7 @@ $carobj = $datalist[0];
 // 是否可以申请，carinfo下边用applyflag来判断
 $applyflag = $carobj->{'applyflag'};
 if ($applyflag != '1') {
-    makeOutHtml("applyflag != 1, 不能申请");
+    makeOutHtml("applyflag != 1, 无需申请");
     return;
 }
 // 申请需要的参数shenqing(applyid,carid,userid,licenseno)
@@ -287,8 +290,8 @@ $form = array(
     'platform'=>$platform,
 );
 $result_array = array(0,null);
-// 每隔5分钟尝试一次，尝试12次，脚本每次被唤醒运行1个小时
-for ($i = 0; $i < 12; $i++) {
+// 尝试3次，间隔3秒，脚本每15分钟执行一次
+for ($i = 0; $i < 3; $i++) {
     $result_array = curl_post($head, http_build_query($form), $host.$page_submitpaper, $host.$page_loadotherdrivers);
     if ($result_array[0] == 200) {
         if ($result_array[1] != null) {
@@ -312,7 +315,7 @@ for ($i = 0; $i < 12; $i++) {
     }
 
     echo "Submit paper ".$i." code = ".$result_array[0].$huanghang;
-    sleep(5 * 60);
+    sleep(3);
 }
 
 ?>
