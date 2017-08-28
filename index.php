@@ -149,70 +149,7 @@ if ($applyflag != '1') {
     makeOutHtml("applyflag != 1, 无需申请");
     return;
 }
-// 申请需要的参数shenqing(applyid,carid,userid,licenseno)
-$applyid = $carobj->{'applyid'};
-$carid = $carobj->{'carid'};
-$userid = $carobj->{'userid'};
-$licenseno = $carobj->{'licenseno'};
-/*
-$carapplyarr = $carobj->{'carapplyarr'};
-$carapplyarrlength = count($carapplyarr);
-// 重置applyid，每次都现取
-$applyid = '';
-$enterbjend = '';
-if ($carapplyarr == null || $carapplyarrlength == 0) {
-    // 没有进京证，需要申请
-} else {
-    // 当前时间
-    $date = strtotime(date("Y-m-d"));
-    // 当前日期是否存在进京证
-    $iscurdateexist = false;
-    $iscurdatelastday = false;
-    // 当前日期后是否存在进京证
-    $isafterdateexist = false;
-    // 有进京证，需要看是否最后一日，才能申请
-    for ($i = 0; $i < $carapplyarrlength; $i++) {
-        $carapply = $carapplyarr[$i];
-        $tmpstart = $carapply->{'enterbjstart'};
-        $tmpend = $carapply->{'enterbjend'};
-        $start = strtotime($tmpstart);
-        $end = strtotime($tmpend);
-        // 比较范围
-        if ($date >= $start && $date <= $end) {
-            $iscurdateexist = true;
-            if ($date == $end) {
-                $iscurdatelastday = true;
-                $applyid = $carapply->{'applyid'};
-                $enterbjend = $carapply->{'enterbjend'};
-            }
-        } else if ($date < $start) {
-            $isafterdateexist = true;
-        } else if ($date > $end) {
-            // 不用管，已经失效的进京证
-        } else {
-            // 应该不会走到这里
-        }
-    }
 
-    if ($isafterdateexist) {
-        // 已有进京证，结束
-        echo "存在有效的进京证，无需申请";
-        return;
-    }
-    if ($iscurdateexist) {
-        if ($iscurdatelastday) {
-            // 最后一天，需要申请
-        } else {
-            // 无需申请
-            echo "存在有效的进京证，无需申请";
-            return;
-        }
-    } else {
-        // 没有进京证，需要申请
-    }
-}*/
-
-// 根据applyid来决定申请开始时间
 $page_loadotherdrivers = '/enterbj-img/platform/enterbj/loadotherdrivers';
 $page_submitpaper = '/enterbj-img/platform/enterbj/submitpaper';
 // 从person.json中读取个人信息
