@@ -2,8 +2,6 @@
 require_once 'http.php';
 require_once 'curl.php';
 require_once 'config.php';
-// 设置输出编码
-header('Content-Type:text/html;charset=utf-8');
 
 function entercarlist($userid) {
     global $host;

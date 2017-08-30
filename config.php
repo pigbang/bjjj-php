@@ -1,4 +1,6 @@
 <?php
+// 设置输出编码
+header('Content-Type:text/html;charset=utf-8');
 // 设置时区
 date_default_timezone_set("Asia/Shanghai");
 function loadConfig($filename)
@@ -13,6 +15,22 @@ function makeOutHtml($info) {
     $outHtml.= $info;
     $outHtml.= "</p>";
     echo $outHtml;
+}
+function get_millisecond()
+{
+    list($usec, $sec) = explode(" ", microtime());
+    $msec=round($usec*1000);
+    return $msec;
+
+}
+function makeOutLog($info) {
+    $file = 'log.txt';
+    $now = date("Y-m-d H:i:s");
+    $now.= ' ';
+    $now.= sprintf('%03d', get_millisecond());
+    $pid = getmypid();
+    $content = "$now($pid): $info\n";
+    file_put_contents($file, $content, FILE_APPEND);
 }
 function makeTimestampPoint() {
     // 时间相关，每6分钟采点一个

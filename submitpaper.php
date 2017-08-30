@@ -2,8 +2,7 @@
 require_once 'http.php';
 require_once 'curl.php';
 require_once 'config.php';
-// 设置输出编码
-header('Content-Type:text/html;charset=utf-8');
+
 function submitPaper($userid) {
     global $host;
     global $headers;
@@ -54,9 +53,11 @@ function submitPaper($userid) {
     $inbjtime = date("Y-m-d");
     // 默认申请明天的
     {
-        $tomorrow = date_create($inbjtime);
-        date_add($tomorrow, date_interval_create_from_date_string("1 days"));
-        $inbjtime = date_format($tomorrow,"Y-m-d");
+        $tomorrow = date("Y-m-d", strtotime("$inbjtime +1 day"));
+        $y = intval(date('Y', strtotime($tomorrow)));
+        $m = intval(date('m', strtotime($tomorrow)));
+        $d = intval(date('d', strtotime($tomorrow)));
+        $inbjtime = "$y-$m-$d";
     }
     // 对时间戳取整
     $hiddentime = makeTimestampPoint();
