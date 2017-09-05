@@ -1,6 +1,4 @@
 <?php
-// 设置输出编码
-header('Content-Type:text/html;charset=utf-8');
 // 设置时区
 date_default_timezone_set("Asia/Shanghai");
 function loadConfig($filename)
@@ -9,6 +7,10 @@ function loadConfig($filename)
     // 把JSON字符串转成PHP数组
     $config = json_decode($json_data, true);
     return $config;
+}
+function saveConfig($filename, $array) {
+    $json_data = json_encode($array);
+    file_put_contents($filename, $json_data);
 }
 function makeOutHtml($info) {
     $outHtml = "<p>";
@@ -21,7 +23,6 @@ function get_millisecond()
     list($usec, $sec) = explode(" ", microtime());
     $msec=round($usec*1000);
     return $msec;
-
 }
 function makeOutLog($info) {
     $file = 'log.txt';
@@ -68,7 +69,9 @@ $appsource = 'bjjj';
 $page_index = '/enterbj/jsp/enterbj/index.html';
 // 获取车辆进京证状态
 $page_entercarlist = '/enterbj/platform/enterbj/entercarlist';
+$page_addcartype = '/enterbj/platform/enterbj/addcartype';
+$page_applyBjMessage = '/enterbj/platform/enterbj/applyBjMessage';
 $page_loadotherdrivers = '/enterbj-img/platform/enterbj/loadotherdrivers';
-$page_submitpaper = '/enterbj-img/platform/enterbj/submitpaper';
+$page_submitpaper = '/enterbj/platform/enterbj/submitpaper';
 
 ?>

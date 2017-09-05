@@ -1,5 +1,4 @@
 <?php
-require_once 'http.php';
 require_once 'curl.php';
 require_once 'config.php';
 

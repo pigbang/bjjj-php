@@ -1,4 +1,6 @@
 <?php
+// 设置输出编码
+header('Content-Type:text/html;charset=utf-8');
 /**
  * Created by PhpStorm.
  * User: zeonadmin
