@@ -53,15 +53,17 @@ global $page_submitpaper;
 global $appsource;
 
 $host = 'https://enterbj.zhongchebaolian.com';
+$domain = 'enterbj.zhongchebaolian.com';
 $headers = array(
-    'Host'=>$host,
-    'Accept'=>'*/*',
-    'Accept-Encoding'=>'gzip, deflate, br',
-    'Accept-Language'=>'en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4,zh-TW;q=0.2',
-    'Connection'=>'keep-alive',
-    'User-Agent'=>'bjsgecl/201704061613 CFNetwork/811.4.18 Darwin/16.5.0',
-    'X-Requested-With'=>'XMLHttpRequest',
-    'Content-Type'=>'application/x-www-form-urlencoded'
+    'Host: ' . $domain,
+    'Accept: */*',
+    'X-Requested-With: XMLHttpRequest',
+    'Accept-Encoding: gzip, deflate',
+    'Accept-Language: zh-cn',
+    'Content-Type: application/x-www-form-urlencoded; charset=UTF-8',
+    'Origin: ' . $host,
+    'Connection: keep-alive',
+    'User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) Mobile/14G60'
 );
 // app来源
 $appsource = 'bjjj';

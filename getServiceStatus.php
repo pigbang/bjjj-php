@@ -50,7 +50,7 @@
             });
         }
         getServerStatus();
-        setInterval(getServerStatus, 5 * 60 * 1000);
+        setInterval(getServerStatus, 3 * 60 * 1000);
     </script>
 </head>
 <body>
