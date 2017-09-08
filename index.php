@@ -47,6 +47,15 @@ for ($i = 0; $i < count($info_users); $i++) {
         makeOutLog("User $i path not exists");
         continue;
     }
+    // 优化：读取entercarlist结果，判定是否需要申请
+    if (is_file($userid.'/'.'entercarlist.json')) {
+        $json_entercarlist = loadConfig($userid.'/'.'entercarlist.json');
+        if (checkExistApply($json_entercarlist, $licenseno, $date)) {
+            makeOutHtml("User $i no need apply, already exist one");
+            makeOutLog("User $i no need apply, already exist one");
+            continue;
+        }
+    }
 
     // 检查车辆列表信息
     $result_array = entercarlist($userid);
@@ -85,6 +94,8 @@ for ($i = 0; $i < count($info_users); $i++) {
         makeOutLog("Enter car list $i car not exists! result = ".$result_array[1]);
         continue;
     }
+    // 优化：保存entercarlist结果，用来判定是否需要查询
+    saveConfig($userid.'/'.'entercarlist.json', $data_json);
     // 是否可以申请，carinfo下边用applyflag来判断
     $applyflag = $carobj->{'applyflag'};
     if ($applyflag != '1') {
