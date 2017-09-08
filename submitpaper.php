@@ -3,7 +3,7 @@ require_once 'http.php';
 require_once 'curl.php';
 require_once 'config.php';
 
-function submitPaper($userid) {
+function submitPaper($userid,$licenseno) {
     global $host;
     global $headers;
     global $page_loadotherdrivers;
@@ -12,8 +12,8 @@ function submitPaper($userid) {
     global $platform;
 
     // car.json中读取车辆信息
-    $car_info = loadConfig($userid.'/'.'car.json');
-    $licenseno = $car_info['licenseno'];
+    $car_info = loadConfig($userid.'/'.$licenseno.'/'.'car.json');
+    //$licenseno = $car_info['licenseno'];
     $engineno = $car_info['engineno'];
     $cartypecode = $car_info['cartypecode'];
     $vehicletype = $car_info['vehicletype'];

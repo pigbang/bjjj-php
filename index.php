@@ -144,7 +144,7 @@ for ($i = 0; $i < count($info_users); $i++) {
     }
 
     // 提交表单
-    $result_array = submitPaper($userid);
+    $result_array = submitPaper($userid,$licenseno);
     if ($result_array[0] != 200 || $result_array[1] == null) {
         makeOutHtml("Submit paper $i code = ".$result_array[0]);
         makeOutLog("Submit paper $i code = ".$result_array[0]);
