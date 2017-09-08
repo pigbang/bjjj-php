@@ -43,6 +43,11 @@ function makeTimestampPoint() {
     $timestamp = date("Y-m-d H:i:s", $point);
     return $timestamp;
 }
+function isHourOver9() {
+    $now = date("Y-m-d H:i:s");
+    $zero = date("Y-m-d 09:00:00");
+    return strtotime($now) > strtotime($zero);
+}
 
 global $host;
 global $headers;
@@ -66,7 +71,7 @@ $headers = array(
     'Content-Type: application/x-www-form-urlencoded; charset=UTF-8',
     'Origin: ' . $host,
     'Connection: keep-alive',
-    'User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) Mobile/14G60'
+    'User-Agent: Mozilla/5.0 (Linux; Android 4.4.2; E6883 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36'
 );
 // app来源
 $appsource = 'bjjj';

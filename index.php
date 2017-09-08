@@ -6,21 +6,36 @@ require_once 'entercarlist.php';
 require_once 'addcartype.php';
 require_once 'submitpaper.php';
 
+// 超过9点就不要自动提交了
+if (isHourOver9()) {
+    https(404);
+    makeOutHtml("超过9点不自动提交");
+    makeOutLog("超过9点不自动提交");
+    return;
+}
+
+function getLicensenoByUserId($userid) {
+    if (!is_file($userid.'/'.'cars.json')) {
+        return null;
+    }
+    $json_cars = loadConfig($userid.'/'.'cars.json');
+    if (count($json_cars) == 0) {
+        return null;
+    }
+    // 目前一个账号只能申请一辆车
+    $licenseno = $json_cars[0];
+    return $licenseno;
+}
 // users.json获取多个用户
 $info_users = loadConfig('users.json');
 for ($i = 0; $i < count($info_users); $i++) {
     // 用户唯一标识
     $userid = $info_users[$i];
     // 需要指定申请车辆车牌号
-    if (!is_file($userid.'/'.'cars.json')) {
+    $licenseno = getLicensenoByUserId($userid);
+    if ($licenseno == null) {
         continue;
     }
-    $json_cars = loadConfig($userid.'/'.'cars.json');
-    if (count($json_cars) == 0) {
-        continue;
-    }
-    // 目前一个账号只能申请一辆车
-    $licenseno = $json_cars[0];
     // 当前日期
     $date = date("Y-m-d");
     // 检查时间戳目录是否存在
