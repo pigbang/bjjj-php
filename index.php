@@ -11,6 +11,16 @@ $info_users = loadConfig('users.json');
 for ($i = 0; $i < count($info_users); $i++) {
     // 用户唯一标识
     $userid = $info_users[$i];
+    // 需要指定申请车辆车牌号
+    if (!is_file($userid.'/'.'cars.json')) {
+        continue;
+    }
+    $json_cars = loadConfig($userid.'/'.'cars.json');
+    if (count($json_cars) == 0) {
+        continue;
+    }
+    // 目前一个账号只能申请一辆车
+    $licenseno = $json_cars[0];
     // 当前日期
     $date = date("Y-m-d");
     // 检查时间戳目录是否存在
@@ -41,12 +51,25 @@ for ($i = 0; $i < count($info_users); $i++) {
     }
     // 数组，一辆车对应一个
     $datalist = $data_json->{'datalist'};
+    if (count($datalist) == 0) {
+        makeOutHtml("Enter car list $i no car! result = ".$result_array[1]);
+        makeOutLog("Enter car list $i no car! result = ".$result_array[1]);
+        continue;
+    }
     // 这里我默认只有一辆车
-    $carobj = $datalist[0];
-    // 车辆信息
-    $carid = $carobj->{'carid'};
-    $licenseno = $carobj->{'licenseno'};
-    $applyid = $carobj->{'applyid'};
+    $carobj = null;
+    // 申请车辆是否存在
+    for ($j = 0; $j < count($datalist); $j++) {
+        if ($datalist[$j]->{'licenseno'} == $licenseno) {
+            $carobj = $datalist[$j];
+            break;
+        }
+    }
+    if ($carobj == null) {
+        makeOutHtml("Enter car list $i car not exists! result = ".$result_array[1]);
+        makeOutLog("Enter car list $i car not exists! result = ".$result_array[1]);
+        continue;
+    }
     // 是否可以申请，carinfo下边用applyflag来判断
     $applyflag = $carobj->{'applyflag'};
     if ($applyflag != '1') {
@@ -55,9 +78,16 @@ for ($i = 0; $i < count($info_users); $i++) {
         makeOutLog("Enter car list $i applyflag = $applyflag, 无需申请");
         continue;
     }
+    // 车辆信息
+    $carid = $carobj->{'carid'};
+    $applyid = '';
+    if (count($carobj->{'carapplyarr'}) > 0) {
+        $applyobj = $carobj->{'carapplyarr'}[0];
+        $applyid = $applyobj->{'applyid'};
+    }
 
     // 检查car.json person.json放在这里
-    if (!is_file($userid.'/'.'car.json')) {
+    if (!is_file($userid.'/'.$licenseno.'/'.'car.json')) {
         // 从文件构建
         $json_car = loadConfig('userid'.'/'.'car.json');
         // 填入数据，需要请求addcartype
@@ -76,8 +106,15 @@ for ($i = 0; $i < count($info_users); $i++) {
             continue;
         }
         // 保存
-        file_put_contents($userid.'/'.'car.json', json_encode($json_car));
-        file_put_contents($userid.'/'.'person.json', json_encode($json_person));
+        file_put_contents($userid.'/'.$licenseno.'/'.'car.json', json_encode($json_car));
+        file_put_contents($userid.'/'.$licenseno.'/'.'person.json', json_encode($json_person));
+    }
+    // 检查照片是否存在
+    if (is_file($userid.'/'.$licenseno.'/'.'person.json')) {
+        $json_person = loadConfig($userid.'/'.$licenseno.'/'.'person.json');
+        $drivingphoto = $json_person['drivingphoto'];
+        if (count($drivingphoto) == 0)
+            continue;
     }
 
     // 提交表单
