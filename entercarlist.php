@@ -8,25 +8,19 @@ function entercarlist($userid) {
     global $page_index;
     global $page_entercarlist;
     global $appsource;
-    // 表单数据
-    $user_info = loadConfig($userid.'/'.'user.json');
-    $userid = $user_info['userid'];
-    $appkey = $user_info['appkey'];
-    $deviceid = $user_info['deviceid'];
-    $timestamp = $user_info['timestamp'];
-    $token = $user_info['token'];
-    $sign = $user_info['sign'];
-    $platform = $user_info['platform'];
+    global $appkey;
+    global $deviceid;
+    global $platform;
 
     // 对时间戳取整
     $timestamp = makeTimestampPoint();
     $date = date("Y-m-d", strtotime($timestamp));
 
     // token和sign是timestamp相关，需要额外提供
-    $token_info = loadConfig($userid.'/'.$date.'/'.'token.json');
+    $token_info = loadConfig($userid.'/'.$date.'/'.$platform.'/'.'token.json');
     $token = $token_info[$timestamp];
 
-    $sign_info = loadConfig($userid.'/'.$date.'/'.'sign.json');
+    $sign_info = loadConfig($userid.'/'.$date.'/'.$platform.'/'.'sign.json');
     $sign = $sign_info[$timestamp];
 
     // form提交

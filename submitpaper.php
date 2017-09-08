@@ -6,15 +6,10 @@ require_once 'config.php';
 function submitPaper($userid) {
     global $host;
     global $headers;
-    global $page_index;
-    global $page_entercarlist;
     global $page_loadotherdrivers;
     global $page_submitpaper;
     global $appsource;
-
-    // usr.json读取
-    $user_info = loadConfig($userid.'/'.'user.json');
-    $platform = $user_info['platform'];
+    global $platform;
 
     // car.json中读取车辆信息
     $car_info = loadConfig($userid.'/'.'car.json');
@@ -67,7 +62,7 @@ function submitPaper($userid) {
     $imageId = $inbjentrancecode.$inbjduration.$inbjtime.$userid.$engineno.$cartypecode.$driverlicenseno.$carid.$hiddentime;
 
     // imageId取sign
-    $json_timestamp = loadConfig($userid.'/'.$date.'/'.'timestamp.json');
+    $json_timestamp = loadConfig($userid.'/'.$date.'/'.$platform.'/'.'timestamp.json');
     // sign从json中获取
     $sign = $json_timestamp[$hiddentime];
 

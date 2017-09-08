@@ -51,6 +51,9 @@ global $page_entercarlist;
 global $page_loadotherdrivers;
 global $page_submitpaper;
 global $appsource;
+global $appkey;
+global $deviceid;
+global $platform;
 
 $host = 'https://enterbj.zhongchebaolian.com';
 $domain = 'enterbj.zhongchebaolian.com';
@@ -67,6 +70,10 @@ $headers = array(
 );
 // app来源
 $appsource = 'bjjj';
+$appkey = 'kkk';
+$deviceid = 'ddd';
+// platform统一用Android类型
+$platform = '02';
 // 主页
 $page_index = '/enterbj/jsp/enterbj/index.html';
 // 获取车辆进京证状态
