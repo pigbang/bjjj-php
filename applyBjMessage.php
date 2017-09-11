@@ -53,4 +53,19 @@ function setApplyBjMessage($json_car, $json_person, $applyid, $carid, $userid, $
     $json_person['driverlicenseno'] = $carusernum;
     return true;
 }
+
+function getApplyBjMessageNeedPhoto($applyid, $carid, $userid, $licenseno, $envGrade="3") {
+    $result_array = applyBjMessage($applyid, $carid, $userid, $licenseno, $envGrade);
+    if ($result_array[0] != 200 || $result_array[1] == null) {
+        // 请求失败
+        return true;
+    }
+
+    // 解析html
+    if (strstr($result_array[1], "暂不上传图片")) {
+        return false;
+    }
+
+    return true;
+}
 ?>

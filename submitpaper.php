@@ -3,7 +3,7 @@ require_once 'http.php';
 require_once 'curl.php';
 require_once 'config.php';
 
-function submitPaper($userid,$licenseno) {
+function submitPaper($userid,$licenseno,$needPhoto) {
     global $host;
     global $headers;
     global $page_loadotherdrivers;
@@ -40,11 +40,13 @@ function submitPaper($userid,$licenseno) {
     $driverlicenseno = $person_info['driverlicenseno'];
     $driverphoto = $person_info['driverphoto'];
     $personphoto = $person_info['personphoto'];
-    // 暂时不上传照片 -- 2017-9-8日启用
-    $drivingphoto = '';
-    $carphoto = '';
-    $driverphoto = '';
-    $personphoto = '';
+    if (!$needPhoto) {
+        // 暂时不上传照片 -- 2017-9-8日启用
+        $drivingphoto = '';
+        $carphoto = '';
+        $driverphoto = '';
+        $personphoto = '';
+    }
     // 进京时间选择
     $inbjentrancecode1 = '16';
     $inbjentrancecode = '13';

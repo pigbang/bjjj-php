@@ -142,9 +142,10 @@ for ($i = 0; $i < count($info_users); $i++) {
         if (count($drivingphoto) == 0)
             continue;
     }
-
+    // 是否需要提交照片
+    $needPhoto = getApplyBjMessageNeedPhoto($applyid, $carid, $userid, $licenseno);
     // 提交表单
-    $result_array = submitPaper($userid,$licenseno);
+    $result_array = submitPaper($userid,$licenseno,$needPhoto);
     if ($result_array[0] != 200 || $result_array[1] == null) {
         makeOutHtml("Submit paper $i code = ".$result_array[0]);
         makeOutLog("Submit paper $i code = ".$result_array[0]);
