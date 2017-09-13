@@ -37,11 +37,11 @@ function entercarlist($userid) {
     return curl_post($headers, http_build_query($form), $host.$page_entercarlist, $host.$page_index);
 }
 
-function checkExistApply($json_entercarlist,$licenseno,$date) {
+function checkNeedApply($json_entercarlist,$licenseno,$date) {
     // 数组，一辆车对应一个
     $datalist = $json_entercarlist['datalist'];
     if (count($datalist) == 0) {
-        return false;
+        return true;
     }
     // 这里我默认只有一辆车
     $carobj = null;
@@ -53,7 +53,7 @@ function checkExistApply($json_entercarlist,$licenseno,$date) {
         }
     }
     if ($carobj == null) {
-        return false;
+        return true;
     }
 
     // 车辆信息
@@ -68,10 +68,11 @@ function checkExistApply($json_entercarlist,$licenseno,$date) {
         $end = strtotime($enterbjend);
         // 状态码
         $status = $applyobj['status'];
-        if ($status == "1" && ($now >= $start && $now <= $end)) {
-            return true;
+        // 修正bug，结束当天需要申请
+        if ($status == "1" && ($now >= $start && $now < $end)) {
+            return false;
         }
     }
-    return false;
+    return true;
 }
 ?>

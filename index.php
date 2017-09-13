@@ -50,9 +50,9 @@ for ($i = 0; $i < count($info_users); $i++) {
     // 优化：读取entercarlist结果，判定是否需要申请
     if (is_file($userid.'/'.'entercarlist.json')) {
         $json_entercarlist = loadConfig($userid.'/'.'entercarlist.json');
-        if (checkExistApply($json_entercarlist, $licenseno, $date)) {
-            makeOutHtml("User $i no need apply, already exist one");
-            makeOutLog("User $i no need apply, already exist one");
+        if (!checkNeedApply($json_entercarlist, $licenseno, $date)) {
+            makeOutHtml("User $i no need apply, 在有效期内且不是最后一日");
+            makeOutLog("User $i no need apply, 在有效期内且不是最后一日");
             continue;
         }
     }
